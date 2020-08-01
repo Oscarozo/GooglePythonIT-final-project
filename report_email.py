@@ -3,6 +3,7 @@ import reports
 import datetime
 import os
 import run
+import emails
 
 time = datetime.datetime.now()
 title = "Processed Update on "+time.strftime("%B")+" "+str(time.day)+", "+str(time.year)
@@ -17,3 +18,6 @@ for text in files:
     add_info += '<br/> <br/>'
 
 reports.generate_report("C:\\Users\\OSCAR\\Desktop\\Processed.pdf", title, add_info)
+email = emails.generate_email('automation@example.com', ' username@example.com', 'Upload Completed - Online Fruit Store',
+                              'All fruits are uploaded to our website successfully. A detailed list is attached to this email.', pdf)
+emails.send_email(email)
