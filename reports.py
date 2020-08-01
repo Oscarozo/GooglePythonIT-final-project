@@ -17,3 +17,7 @@ def generate_report(filename, title, additional_info):
                    ('ALIGN', (0, 0), (-1, -1), 'CENTER')]
     empty_line = Spacer(1, 20)
     report.build([report_title, empty_line, report_info])
+
+
+if __name__ == "__main__":
+    main()

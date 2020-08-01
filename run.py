@@ -26,16 +26,21 @@ def dic_maker(txt):
     return dictt
 
 
-files = get_files()
-print(files)
-for txt in files:
-    p = dic_maker(txt)
-    print(p)
+def main():
+    files = get_files()
+    print(files)
+    for txt in files:
+        p = dic_maker(txt)
+        print(p)
 
-"""
-for txt in files:
-    p = dic_maker(txt)
-    response = requests.post("http://34.66.47.98/feedback", data=p)
-    print(response.status_code)
-    p = {}
-"""
+    """
+    for txt in files:
+        p = dic_maker(txt)
+        response = requests.post("http://34.66.47.98/feedback", data=p)
+        print(response.status_code)
+        p = {}
+    """
+
+
+if __name__ == "__main__":
+    main()
