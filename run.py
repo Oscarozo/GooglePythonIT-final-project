@@ -22,7 +22,6 @@ def dic_maker(txt):
         dictt['name'] = lines[0].strip()
         dictt['weight'] = lines[1].strip()
         dictt['description'] = lines[2].strip()
-        #dictt['image_name'] = lines[3].strip()
     return dictt
 
 
