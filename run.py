@@ -33,13 +33,11 @@ def main():
         p = dic_maker(txt)
         print(p)
 
-    """
     for txt in files:
         p = dic_maker(txt)
         response = requests.post("http://34.66.47.98/feedback", data=p)
         print(response.status_code)
         p = {}
-    """
 
 
 if __name__ == "__main__":
