@@ -3,58 +3,58 @@ import sys
 import os
 import shutil
 import socket
+import emails
 
 
-def check_reboot():
-    """Returns true if the computer has a pending reboot"""
-    return os.path.exists("/run/reboot-required")
-
-
-def check_disk_full(disk, min_gb, min_percent):
-    """Returns true if there isnt enough space"""
-    du = shutil.disk_usage(disk)
-    # Calculate percentage of free space
-    percent_free = 100 * du.free / du.total
-    # calculate how many free gigabytes
-    gigabytes_free = du.free / 2**30
-    if percent_free < min_percent or gigabytes_free < min_gb:
+def check_disk_usage(disk_name):  # checks if the available disk space is less than 20% percent
+    disk_usage = shutil.disk_usage(disk_name)
+    percentage = int((disk_usage.free/disk_usage.total)*100)
+    if percentage < 20:
         return True
-    return False
-
-
-def check_root_full():
-    """Returns True if the root partition is full, False otherwise."""
-    return check_disk_full("/", min_gb=2, min_percent=10)
+    else:
+        return False
 
 
 def check_no_network():
-    """Returns True if it fails to resolve Google's URL"""
+    """Returns True if it fails to resolve localhost to 127.0.0.1 URL"""
     try:
-        socket.gethostbyname("www.google.com")
+        socket.gethostbyname("localhost")
         return False
     except:
         return True
 
 
+def check_cpu():  # checks if the cpu usage is over 80%
+    if psutil.cpu_percent() > 80:
+        return True
+    else:
+        return False
+
+
+def check_memory():  # checks if the available memory is less than 500MB
+    available_memory = psutil.virtual_memory().free >> 20  # gets the free space amount in MB
+    if available_memory < 500:
+        return True
+    else:
+        return False
+
+
 def main():
     checks = [
-        (check_reboot, "Pending reboot."),
-        (check_root_full, "root partition full."),
-        (check_no_network, "No working network :(")
+        (check_disk_usage, "Error - Available disk space is less than 20%"),
+        (check_cpu, "Error - CPU usage is over 80%"),
+        (check_no_network, "Error - localhost cannot be resolved to 127.0.0.1"),
+        (check_memory, "Error - Available memory is less than 500MB")
     ]
 
-    everything_ok = True
+    sender = 'automation@example.com'
+    recipient = 'username@example.com'
+    body = 'Please check your system and resolve the issue as soon as possible.'
 
     for check, msg in checks:
         if check():
-            print(msg)
-            everything_ok = False
-
-    if not everything_ok:
-        sys.exit(1)
-
-    print("Everythin is ok...")
-    sys.exit(0)
+            message = emails.generate_email(sender, recipient, msg, body, None)
+            emails.send_email(message)
 
 
 main()
