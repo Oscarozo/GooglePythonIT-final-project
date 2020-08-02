@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 import requests
+import os
 
-PATH = ''
+PATH = '/home/student-00-2f21e74338af/supplier-data/images'
 
 
 def get_images():
     files = []
-    for (root, path, filename) in os.walk('/home/student-00-b40cf9a1ca5d/images'):
+    for (root, path, filename) in os.walk('/home/student-00-2f21e74338af/supplier-data/images'):
         files.extend(filename)
     return files
 
