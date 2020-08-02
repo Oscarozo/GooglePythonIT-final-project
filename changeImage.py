@@ -10,7 +10,6 @@ def get_images():
     return files
 
 images = get_images()
-
 for img in images:
     ini = '/home/student-00-2f21e74338af/supplier-data/images/'+img
     out = '/home/student-00-2f21e74338af/supplier-data/images/'+img.strip('.tiff')+'.jpeg'
